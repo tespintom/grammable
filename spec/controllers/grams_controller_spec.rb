@@ -46,7 +46,7 @@ RSpec.describe GramsController, type: :controller do
        gram = FactoryBot.create(:gram)
        patch :update, params: { id: gram.id, gram: { message: "Hello" } }
        expect(response).to redirect_to new_user_session_path
-     end
+    end
 
     it 'should allow users to successfully update grams' do
       gram = FactoryBot.create(:gram, message: 'Initial Value')
@@ -143,7 +143,12 @@ RSpec.describe GramsController, type: :controller do
       user = FactoryBot.create(:user)
       sign_in user
 
-      post :create, params: { gram: { message: 'Hello!' } }
+      post :create, params: {
+        gram: {
+          message: 'Hello!',
+          picture: fixture_file_upload('/picture.png', 'image/png')
+        }
+      }
       expect(response).to redirect_to root_path
 
       gram = Gram.last
